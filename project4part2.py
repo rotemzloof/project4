@@ -2,7 +2,7 @@ import socket
 import os
 import struct
 
-HOST='192.168.1.25'
+HOST='ip'
 PORT=8000
 file_pathSave="filePath"
 Save_Folder=r'file_pathSave'
@@ -18,9 +18,9 @@ def send_file():
     print(f"sending to {HOST}:{PORT}")
 
     with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as client_socket:
-        client_socket.connect(HOST,PORT)
+        client_socket.connect((HOST, PORT))
         client_socket.sendall(struct.pack("!I",len(file_name)))
-        client_socket.sendall(struct.pack("!I",file_size))
+        client_socket.sendall(struct.pack("!Q", file_size))
         client_socket.sendall(file_name)
 
         with open(File_send,"rb") as file:
