@@ -4,9 +4,7 @@ import struct
 
 HOST='ip'
 PORT=8000
-file_pathSave="filePath"
-Save_Folder=r'file_pathSave'
-File_send=r'save_Folder'
+File_send = r'C:\Users\You\Desktop\myfile.txt'
 
 
 def send_file():
