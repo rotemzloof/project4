@@ -4,8 +4,7 @@ import struct
 
 HOST='ip'
 PORT=8000
-file_pathSave="filePath"
-Save_Folder=r'file_pathSave'
+Save_Folder = r'C:\Users\You\Downloads'
 
 
 def recv_exact(sock,size):
@@ -21,7 +20,7 @@ def receive_file():
 
     os.makedirs(Save_Folder,exist_ok=True)
     with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as server_socket:
-        server_socket.bind(HOST,PORT)
+        server_socket.bind((HOST, PORT))
         server_socket.listen(1)
 
         print("waiting for connection........")
@@ -34,7 +33,7 @@ def receive_file():
             print("Connected to ",client_adress)
 
             name_length=struct.unpack("!I",recv_exact(client_socket,4))[0]
-            file_size=struct.unpack("!Q",recv_exact(client_socket),8)[0]
+            file_size = struct.unpack("!Q", recv_exact(client_socket, 8))[0]
             file_name=recv_exact(client_socket,name_length).decode("utf-8")
             
             full_path=os.path.join(Save_Folder,file_name)
@@ -46,7 +45,8 @@ def receive_file():
                     chunk =client_socket.recv(min(4096,file_size-received))
                     if not chunk:
                         break
-
+                    file.write(chunk)       
+                    received += len(chunk)
             print("file received successfully")
 
 
